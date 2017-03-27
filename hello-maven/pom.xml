@@ -46,5 +46,23 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+    <repository>
+      <uniqueVersion>false</uniqueVersion>
+      <id>publish</id>
+      <name>Releases</name>
+      <url>http://192.168.1.2:8081/artifactory/java-repo</url>
+      <layout>default</layout>
+    </repository>
+    <snapshotRepository>
+      <uniqueVersion>true</uniqueVersion>
+      <id>publish</id>
+      <name>Snapshots</name>
+      <url>http://192.168.1.2:8081/artifactory/java-repo</url>
+      <layout>legacy</layout>
+    </snapshotRepository>
+    ...
+  </distributionManagement>
+
 
 </project>
