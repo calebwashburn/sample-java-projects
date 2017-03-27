@@ -2,9 +2,11 @@ buildscript {
 	ext {
 		springBootVersion = '1.5.2.RELEASE'
 	}
-	maven {
-      url "http://192.168.1.2:8081/artifactory/java-repo"
-  }
+	repositories {
+		maven {
+	      url "http://192.168.1.2:8081/artifactory/java-repo"
+	  }
+	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
