@@ -15,8 +15,12 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'maven-publish'
+apply from: 'gradle/pipeline.gradle'
 
-version = '0.0.1-SNAPSHOT'
+group = 'com.example.github'
+version = getProp('newVersion') ?: '0.0.1-SNAPSHOT'
+
 sourceCompatibility = 1.8
 
 repositories {
@@ -29,4 +33,30 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+publishing {
+	repositories {
+		maven {
+			url getProp('REPO_WITH_JARS') ?: 'http://localhost:8081/artifactory/libs-release-local'
+			credentials {
+				username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'admin'
+				password getProp('M2_SETTINGS_REPO_PASSWORD') ?: 'password'
+			}
+		}
+	}
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId project.name
+			from components.java
+		}
+	}
+}
+
+
+String getProp(String propName) {
+	return hasProperty(propName) ?
+			(getProperty(propName) ?: System.properties[propName]) : System.properties[propName] ?:
+			System.getenv(propName)
 }
